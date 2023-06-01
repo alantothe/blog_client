@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-
 function RegistrationPage() {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
@@ -42,13 +41,15 @@ function RegistrationPage() {
   };
 
 
-  const handleRedirect = () => {
-    navigate('/login');
-  };
 
 
   return (
+
+
     <div className="container">
+        <header>
+
+        </header>
       <h1>Registration Page</h1>
 
       <div className="formGroup">
@@ -82,9 +83,7 @@ function RegistrationPage() {
       <button type="submit" onClick={handleRegister} className="button">
         Register
       </button>
-       <button onClick={handleRedirect} className="button">
-        Login?
-      </button>
+
     </div>
   );
 }

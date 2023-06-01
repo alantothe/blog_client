@@ -1,19 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useAuth } from '../hooks/auth';
 import { useNavigate } from 'react-router-dom';
+
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const { login, isLoggedIn, checkLoginStatus } = useAuth();
+  const { login } = useAuth();
   const navigate = useNavigate()
 
-  useEffect(() => {
-    checkLoginStatus();
-    if (isLoggedIn) {
-      navigate('/dashboard');
-    }
-  }, [isLoggedIn, navigate, checkLoginStatus]);
 
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
@@ -39,15 +34,13 @@ const LoginPage = () => {
 
   };
 
-  const handleRedirect = () => {
-    navigate('/register')
-  }
 
   return (
     <section>
       <header>
-        <h1>Login Page</h1>
+
       </header>
+      <h1>Login Page</h1>
       <form onSubmit={handleLogin}>
         <label htmlFor="email">Email:</label>
         <input type="text" id="email" value={email} onChange={handleEmailChange} />
@@ -57,7 +50,7 @@ const LoginPage = () => {
 
         <button type="submit">Login</button>
       </form>
-      <button onClick={handleRedirect}>Register?</button>
+
     </section>
   );
 };
