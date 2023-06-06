@@ -1,53 +1,42 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchPosts } from '../../features/addNewPost';
+import { useNavigate } from 'react-router-dom';
 
+function Dashboard() {
+  const dispatch = useDispatch();
+  const posts = useSelector(state => state.posts.posts);
+  const navigate = useNavigate();
+  // grabs all posts
 
-const Dashboard = () => {
-  return (<div>
+  useEffect(() => {
+    dispatch(fetchPosts());
+  }, [dispatch]);
 
-  </div>
+  return (
+    <div className="min-h-screen flex flex-col w-full">
+      {posts.map((post) => (
+        <div className="flex-grow-1 flex justify-center items-center cursor-pointer" onClick={() => navigate(`/post/${post.id}`)}>
+          <div className="max-w-6xl w-full">
+            <div className="post flex items-start gap-4 mx-auto mb-4 max-w-full py-4">
+              <div
+                style={{ backgroundImage: `url("http://localhost:4000/uploads/${post.image}")` }}
+                className="bg-no-repeat bg-center bg-cover w-1/2 h-64"
+              />
 
+              <div className="post-info flex flex-col w-1/2">
+                <h2 className="post-title text-2xl font-extrabold mt-0 mb-4">{post.title}</h2>
+                <p className="post-date">{new Date(post.createdAt).toLocaleDateString()}</p>
+                <div className="post-content overflow-hidden max-h-20">{post.content}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
   );
-};
+}
 
 export default Dashboard;
 
 
-// post css
-
-{/* <div className="min-h-screen flex flex-col w-full">
-
-<div className="flex-grow-1 flex justify-center items-center">
-  <div className="max-w-6xl w-80%">
-    <div className="post flex items-start gap-4 mx-auto mb-4 max-w-full py-4">
-      <img
-        src="https://images.entertainment.ie/uploads/2019/10/19175737/Fight-Club-The-Final-Scene.png?w=1280&h=768&q=high"
-        alt="Post Image"
-        className="object-cover w-2/5 h-auto"
-      />
-
-      <div className="post-info flex flex-col w-4/5">
-        <h2 className="post-title text-2xl font-extrabold mt-0 mb-4">The Social Network Is the Best Movie from David Fincher</h2>
-        <p className="post-date">April 23, 2023</p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque ut dapibus odio.</p>
-      </div>
-    </div>
-  </div>
-</div>
-<div className="flex-grow-1 flex justify-center items-center">
-<div className="max-w-6xl w-80%">
-<div className="post flex items-start gap-4 mx-auto mb-4 max-w-full py-4">
-      <img
-        src="https://images.entertainment.ie/uploads/2019/10/19175737/Fight-Club-The-Final-Scene.png?w=1280&h=768&q=high"
-        alt="Post Image"
-        className="object-cover w-2/5 h-auto"
-      />
-
-      <div className="post-info flex flex-col w-4/5">
-        <h2 className="post-title text-2xl font-extrabold mt-0 mb-4">The Social Network Is the Best Movie from David Fincher</h2>
-        <p className="post-date">April 23, 2023</p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque ut dapibus odio.</p>
-      </div>
-    </div>
-  </div>
-</div>
-</div> */}

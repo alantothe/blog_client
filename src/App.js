@@ -8,6 +8,8 @@ import Dashboard from './components/Dashboard/Dashboard';
 import LoginPage from './components/LoginPage';
 import RegisterPage from './components/RegisterPage';
 import CreatePost from './components/CreatePost';
+import SinglePost from './components/SinglePost';
+import EditPost from './components/EditPost';
 
 
 function App() {
@@ -21,6 +23,8 @@ function App() {
         <Route exact path="/register" element={<RegisterPage />} />
         <Route exact path="/dashboard" element={<Dashboard />} />
         <Route exact path="/create" element={<CreatePost />} />
+        <Route exact path="/edit/:id" element={<EditPost />} />
+        <Route exact path="/post/:id" element={<SinglePost />} />
         <Route path="/" element={<Navigate to="dashboard" />} />
       </Routes>
     </Router>

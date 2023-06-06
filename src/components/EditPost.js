@@ -1,53 +1,63 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { addNewPost } from "../features/addNewPost";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from 'react-router-dom';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-import { fetchUserById } from '../features/userSlice';
-import { useSelector } from "react-redux";
 import { useAuth } from '../hooks/auth';
+import { fetchPost, editPost } from '../features/addNewPost';
 import { useNavigate } from "react-router-dom";
-function CreatePost() {
+
+function EditPost() {
   const dispatch = useDispatch();
+  const { id } = useParams();
   const { user } = useAuth()
+
   const [title, setTitle] = useState("");
   const [image, setImage] = useState(null);
   const [content, setContent] = useState("");
-  const username = useSelector(state => state.user.username);
+  const [currentImage, setCurrentImage] = useState(null);
   const navigate = useNavigate()
 
-  //grab logged in user from auth.js to fetch user ID
-  useEffect(() => {
-    if (user && user.id) {
-      dispatch(fetchUserById(user.id));
-    }
-  }, [dispatch, user]);
 
+// grab the original post information from the server.
+useEffect(() => {
+  dispatch(fetchPost(id));
+}, [dispatch, id]);
 
-  const handleImageChange = (e) => {
-    setImage(e.target.files[0]);
-  };
+// grab the post from the redux state.
+const post = useSelector(state => state.posts.post);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+// local state
+useEffect(() => {
+  if(post) {
+    setTitle(post.title);
+    setContent(post.content);
+    setCurrentImage(post.image); // store the url of the current image
+  }
+}, [post]);
 
-    const formData = new FormData();
-    formData.append('title', title);
+// update the image state and the current image url
+const handleImageChange = (e) => {
+  setImage(e.target.files[0]);
+  setCurrentImage(URL.createObjectURL(e.target.files[0])); // Update current image with the new file's URL.
+};
+
+// dispatch edit post
+const handleSubmit = (e) => {
+  e.preventDefault();
+
+  const formData = new FormData();
+  formData.append('title', title);
+  formData.append('content', content);
+
+  // only append a new image if one was uploaded.
+  if(image) {
     formData.append('image', image);
-    formData.append('content', content);
-    formData.append('username', username)
+  }
 
-    dispatch(addNewPost(formData));
-    navigate('/dashboard')
-
-  };
-  console.log(content);
-  useEffect(() => {
-    dispatch(fetchUserById());
-  }, [dispatch]);
-
-
-
+  dispatch(editPost({id: id, formData: formData}));
+  alert("Post Updated!")
+};
 
 
 
@@ -77,7 +87,7 @@ function CreatePost() {
             style={{ marginTop: '5px' }}
             className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
           >
-            Create post
+            Update post
           </button>
         </form>
       </div>
@@ -85,6 +95,4 @@ function CreatePost() {
   );
 }
 
-export default CreatePost;
-
-
+export default EditPost;
