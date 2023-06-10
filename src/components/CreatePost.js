@@ -7,6 +7,8 @@ import { fetchUserById } from '../features/userSlice';
 import { useSelector } from "react-redux";
 import { useAuth } from '../hooks/auth';
 import { useNavigate } from "react-router-dom";
+import { fetchPosts } from '../features/addNewPost';
+
 function CreatePost() {
   const dispatch = useDispatch();
   const { user } = useAuth()
@@ -31,16 +33,21 @@ function CreatePost() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    let strippedContent = content.replace(/<p>|<\/p>/g, '');
+
     const formData = new FormData();
     formData.append('title', title);
     formData.append('image', image);
-    formData.append('content', content);
+    formData.append('content', strippedContent);
     formData.append('username', username)
 
-    dispatch(addNewPost(formData));
-    navigate('/dashboard')
-
+    dispatch(addNewPost(formData)).then(() => {
+      dispatch(fetchPosts());
+      navigate('/dashboard')
+    });
   };
+
+
   console.log(content);
   useEffect(() => {
     dispatch(fetchUserById());

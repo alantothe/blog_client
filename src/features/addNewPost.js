@@ -28,7 +28,7 @@ export const fetchPosts = createAsyncThunk(
 export const fetchPost = createAsyncThunk(
   'posts/fetchPost',
   async (id) => {
-    const response = await axios.get(`http://localhost:4000/api/post/${id}`);
+    const response = await axios.get(`/api/post/${id}`);
 
     if (response.status === 200) {
       return response.data;
@@ -54,7 +54,7 @@ export const deletePost = createAsyncThunk(
   'posts/deletePost',
   async (id, { rejectWithValue }) => {
     try {
-      const response = await axios.delete(`http://localhost:4000/api/post/${id}`);
+      const response = await axios.delete(`/api/post/${id}`);
       if (response.data.success) {
         return id;
       } else {
@@ -129,3 +129,4 @@ const postsSlice = createSlice({
 });
 
 export default postsSlice.reducer;
+
