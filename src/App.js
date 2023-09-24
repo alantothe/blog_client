@@ -1,20 +1,20 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
-import Header from './components/Header/Header';
+import React from "react";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+import Header from "./components/Header/Header";
 
-import './App.css';
-
-import Dashboard from './components/Dashboard/Dashboard';
-import LoginPage from './components/LoginPage';
-import RegisterPage from './components/RegisterPage';
-import CreatePost from './components/CreatePost';
-import SinglePost from './components/SinglePost';
-import EditPost from './components/EditPost';
-
+import Dashboard from "./components/Dashboard/Dashboard";
+import LoginPage from "./components/LoginPage";
+import RegisterPage from "./components/RegisterPage";
+import CreatePost from "./components/CreatePost";
+import SinglePost from "./components/SinglePost";
+import EditPost from "./components/EditPost";
 
 function App() {
-  console.log("yo app")
-
   return (
     <Router>
       <Header />
