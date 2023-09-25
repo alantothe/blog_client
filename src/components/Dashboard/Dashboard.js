@@ -8,7 +8,12 @@ function Dashboard() {
 
   const posts = useSelector((state) => state.posts.posts);
   const navigate = useNavigate();
-  console.log(posts);
+
+  function extractFirstP(html) {
+    const regex = /<p>(.*?)<\/p>/;
+    const match = regex.exec(html);
+    return match ? match[1] : ""; // Return the content inside the first <p> tag, or an empty string if no match is found
+  }
 
   useEffect(() => {
     dispatch(fetchPosts());
@@ -38,7 +43,9 @@ function Dashboard() {
                 </p>
                 <div
                   className="post-content overflow-hidden max-h-20 text-lg font-light my-2"
-                  dangerouslySetInnerHTML={{ __html: post.content }}
+                  dangerouslySetInnerHTML={{
+                    __html: extractFirstP(post.content),
+                  }}
                 ></div>
               </div>
             </div>

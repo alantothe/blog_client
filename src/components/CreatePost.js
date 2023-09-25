@@ -31,12 +31,10 @@ function CreatePost() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    let strippedContent = content.replace(/<p>|<\/p>/g, "");
-
     const formData = new FormData();
     formData.append("title", title);
     formData.append("image", image);
-    formData.append("content", strippedContent);
+    formData.append("content", content);
     formData.append("username", user.username);
 
     dispatch(addNewPost(formData)).then(() => {
@@ -49,6 +47,24 @@ function CreatePost() {
   useEffect(() => {
     dispatch(fetchUserById());
   }, [dispatch]);
+
+  const editorModules = {
+    toolbar: [
+      [{ header: "1" }, { header: "2" }, { font: [] }],
+      [{ size: ["small", false, "large", "huge"] }],
+      ["bold", "italic", "underline", "strike", "blockquote"],
+      [
+        { list: "ordered" },
+        { list: "bullet" },
+        { indent: "-1" },
+        { indent: "+1" },
+      ],
+      ["link", "image", "video"],
+      [{ color: [] }, { background: [] }],
+      [{ align: [] }],
+      ["clean"],
+    ],
+  };
 
   return (
     <div>
@@ -73,6 +89,8 @@ function CreatePost() {
               value={content}
               onChange={setContent}
               style={{ height: "300px" }}
+              modules={editorModules}
+              theme={"snow"}
             />
           </div>
           <button
